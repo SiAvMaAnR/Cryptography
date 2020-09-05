@@ -9,36 +9,78 @@ namespace Cryptography_1
 	class SecondCipher
 	{
 		private static string Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя0123456789";//Набор сиволов
+		//private static string Alphabet = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";//Набор сиволов
+		private string NewAlphabet;
+
 		private int[] ArrNumber = new int[Alphabet.Length];//Массив чисел, соответствующих алфавиту
-		private string Text;
+		private int [] NewArrNumber = new int[Alphabet.Length];//Зашифрованный массив чисел
 
-		//=====================================================================================
-		private int n = Alphabet.Length;//Количество элементов в алфавите
-		private int K;//Первый ключ
-		private int A;//Второй ключ
-		//x - Позиция шифруемого символа
-		//Шифрование -->  y = (Kx + A) % n
-		//=====================================================================================
+		private string encrypt = "";
+		private string decrypt = "";
 
-		public SecondCipher(int K,int A, string Text, out int a)
+		private string Text;//Входной текст
+
+		private int N = Alphabet.Length;//Количество элементов в алфавите
+		private int A;//Первый ключ
+		private int B;//Второй ключ
+
+		public SecondCipher(int A,int B, string Text, out int Lenght)
 		{
-			a = n;
-			this.K = K;
+			Lenght = N;//Передача длины Алфавита
 			this.A = A;
+			this.B = B;
 			this.Text=Text;
 		}
 
-		public void AlphabetNumber()//Задаем массиву ArrNumber значения
+		private void AlphabetNumber()//Заполнить численный алфавит ArrNumber значениями от 0 до конца алфавита
 		{
-			for (int i = 0; i < ArrNumber.Length; i++)
+			for (int i = 0; i < N; i++)
 				ArrNumber[i] = i;
+		}
+
+
+		private void NewAlphabetNumber()//Зашифровать численный алфавит NewArrNumber
+		{
+			for (int i = 0; i < N; i++)
+			{
+				NewArrNumber[i] = (A * ArrNumber[i] + B) % N;
+			}
 		}
 
 		private string CipherDerivation()
 		{
-
-			return "";
+			AlphabetNumber();//Заполнить численный алфавит ArrNumber значениями от 0 до конца алфавита
+			NewAlphabetNumber();//Зашифровать численный алфавит NewArrNumber
+			for (int i = 0; i < N; i++)
+			{
+				NewAlphabet += Alphabet[NewArrNumber[i]];
+			}
+			return NewAlphabet;
 		}
+
+
+		public string Encode()//Зашифрованный Алфавит
+		{
+			string Cipher = CipherDerivation();
+			for (int i = 0; i < Text.Length; i++)
+			{
+				int INDEX = Alphabet.IndexOf(Text[i]);
+				encrypt += (INDEX != -1) ? Cipher[INDEX] : Text[i];
+			}
+			return encrypt;
+		}
+
+		public string Decode()//Расшированный текст
+		{
+			string Cipher = CipherDerivation();
+			for (int i = 0; i < Text.Length; i++)
+			{
+				int INDEX = Cipher.IndexOf(Text[i]);
+				decrypt += (INDEX != -1) ? Alphabet[INDEX] : Text[i];
+			}
+			return decrypt;
+		}
+
 
 		public string TestPrintArray()//Массив в виде строки
 		{

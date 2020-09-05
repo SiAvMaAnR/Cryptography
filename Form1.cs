@@ -94,9 +94,7 @@ namespace Cryptography_1
 			{
 				int.TryParse(textBox2.Text, out int KeyNumber);
 				if(textBox3.Text.Length>=30)
-				{
 					throw new Exception("Длина ключевого слова выходит за пределы!");
-				}
 				FirstCipher firstCipher = new FirstCipher(textBox3.Text, KeyNumber, textBox1.Text);
 				label1.Text = firstCipher.Encode();
 			}
@@ -112,9 +110,7 @@ namespace Cryptography_1
 			{
 				int.TryParse(textBox2.Text, out int KeyNumber);
 				if (textBox3.Text.Length >= 30)
-				{
 					throw new Exception("Длина ключевого слова выходит за пределы!");
-				}
 				FirstCipher firstcipher = new FirstCipher(textBox3.Text, KeyNumber, textBox1.Text);
 				label1.Text = firstcipher.Decode();
 			}
@@ -128,27 +124,36 @@ namespace Cryptography_1
 		{
 			try
 			{
-				int K = int.Parse(textBox2.Text);
-				int A = int.Parse(textBox3.Text);
-				SecondCipher secondCipher = new SecondCipher(K, A, Text, out int LengthAlphabet);
-				if (NOD(K,LengthAlphabet)!=1)
-				{
+				int A = int.Parse(textBox2.Text);
+				int B = int.Parse(textBox3.Text);
+				SecondCipher secondCipher = new SecondCipher(A, B, textBox1.Text, out int LengthAlphabet);
+				if (NOD(A, LengthAlphabet) != 1)
 					throw new Exception($"Первый ключ должен быть взаимно простым с числом {LengthAlphabet}!");
-				}
-
-
-
+				if (A < 0 || B < 0)
+					throw new Exception($"Ключи должны быть положительными!");
+				label1.Text = secondCipher.Encode();
 			}
 			catch (Exception ex)
 			{
 				MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
-
 		}
 
 		private void SecondDecrypt()//Дешифрование 2 методом - Афинная система подстановок Цезаря
 		{
-
+			try
+			{
+				int K = int.Parse(textBox2.Text);
+				int A = int.Parse(textBox3.Text);
+				SecondCipher secondCipher = new SecondCipher(K, A, textBox1.Text, out int LengthAlphabet);
+				if (NOD(K, LengthAlphabet) != 1)
+					throw new Exception($"Первый ключ должен быть взаимно простым с числом {LengthAlphabet}!");
+				label1.Text = secondCipher.Decode();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 		}
 
 		private void encrypt_Click(object sender, EventArgs e)//Зашифровать
@@ -176,7 +181,7 @@ namespace Cryptography_1
 			}
 		}
 
-		private int NOD(int A, int B)
+		private int NOD(int A, int B)//Наибольший Общий Делитель
 		{
 			if (A == B)
 				return A;

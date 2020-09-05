@@ -59,26 +59,16 @@ namespace Cryptography_1
 			return new string(ReserveAlphabet);
 		}
 
-
 		public string Encode()//Шифрование
 		{
 			string Cipher = CipherDerivation();
 			for (int i = 0; i < Text.Length; i++)
 			{
 				int INDEX = Alphabet.IndexOf(Text[i]);
-				if (INDEX != -1)
-				{
-					encrypt += Cipher[INDEX];
-				}
-				else
-				{
-					encrypt += Text[i];
-				}
+				encrypt += (INDEX != -1) ? Cipher[INDEX] : Text[i];
 			}
 			return encrypt;
 		}
-
-
 
 		public string Decode()//Дешифрование
 		{
@@ -86,14 +76,7 @@ namespace Cryptography_1
 			for(int i=0;i<Text.Length;i++)
 			{
 				int INDEX = Cipher.IndexOf(Text[i]);
-				if (INDEX != -1)
-				{
-					decrypt += Alphabet[INDEX];
-				}
-				else
-				{
-					decrypt += Text[i];
-				}
+				decrypt += (INDEX != -1) ? Alphabet[INDEX] : Text[i];
 			}
 			return decrypt;
 		}
