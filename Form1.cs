@@ -161,13 +161,24 @@ namespace Cryptography_1
 			}
 		}
 
+		private void ThirdEncrypt()//Шифрование 3 методом - Двойной квадрат Уитстона
+		{
+			ThirdCipher thirdCipher = new ThirdCipher();
+			label1.Text = thirdCipher.Length().ToString();
+		}
+
+		private void ThirdDecrypt()//Дешифрование 3 методом - Двойной квадрат Уитстона
+		{
+
+		}
+
 		private void encrypt_Click(object sender, EventArgs e)//Зашифровать
 		{
 			switch (RadioButtonState)
 			{
 				case 1: FirstEncrypt(); break;
 				case 2: SecondEncrypt(); break;
-				case 3: break;
+				case 3: ThirdEncrypt(); break;
 				case 4: break;
 				default: MessageBox.Show("Выберите тип шифра!","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);break;
 			}
@@ -180,7 +191,7 @@ namespace Cryptography_1
 			{
 				case 1: FirstDecrypt(); break;
 				case 2: SecondDecrypt(); break;
-				case 3: break;
+				case 3: ThirdDecrypt(); break;
 				case 4: break;
 				default: MessageBox.Show("Выберите тип шифра!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); break;
 			}
