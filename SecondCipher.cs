@@ -80,15 +80,5 @@ namespace Cryptography_1
 			return decrypt;
 		}
 
-
-		public string TestPrintArray()//Массив в виде строки
-		{
-			string str="";
-			foreach (var item in ArrNumber)
-			{
-				str += item.ToString();
-			}
-			return str;
-		}
 	}
 }

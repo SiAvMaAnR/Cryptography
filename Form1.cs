@@ -21,34 +21,41 @@ namespace Cryptography_1
 
 		private async void Form1_Load(object sender, EventArgs e)
 		{
-			
 			for (Opacity = 0; Opacity < 1; Opacity += 0.02)
 			{
 				await Task.Delay(10);
 			}
 		}
 
+
+		//Системные клавиши
 		private void Form1_KeyDown(object sender, KeyEventArgs e)
 		{
 			switch (e.KeyCode)
 			{
 				case Keys.Escape: Close();break;
 			}
-		}//Системные клавиши
+		}
 
+
+		//Копировать текст в буфер обмена
 		private void label1_Click(object sender, EventArgs e)
 		{
 			if (!string.IsNullOrEmpty(label1.Text))
 				if (MessageBox.Show("Скопировать данные в буфер обмена?", "Сообщение", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
 					Clipboard.SetText(label1.Text, TextDataFormat.UnicodeText);
-		}//Копировать текст в буфер обмена
+		}
 
+
+		//Сменить местамитекст ввода и вывода
 		private void pictureBox1_Click(object sender, EventArgs e)
 		{
 			(textBox1.Text,label1.Text) = (label1.Text,textBox1.Text);
-		}//Сменить местамитекст ввода и вывода
+		}
 
-		private void radioButton1_CheckedChanged(object sender, EventArgs e)//Система цезаря с ключевым словом
+
+		//Система цезаря с ключевым словом
+		private void radioButton1_CheckedChanged(object sender, EventArgs e)
 		{
 			groupBox2.Text = "Введите ключ сдвига и ключевую фразу";
 			RadioButton radioButton = (RadioButton)sender;
@@ -58,7 +65,9 @@ namespace Cryptography_1
 			}
 		}
 
-		private void radioButton2_CheckedChanged(object sender, EventArgs e)//Аффинная система подстановки Цезаря
+
+		//Аффинная система подстановки Цезаря
+		private void radioButton2_CheckedChanged(object sender, EventArgs e)
 		{
 			groupBox2.Text = "Введите два численных ключа";
 			RadioButton radioButton = (RadioButton)sender;
@@ -68,9 +77,11 @@ namespace Cryptography_1
 			}
 		}
 
-		private void radioButton3_CheckedChanged(object sender, EventArgs e)//Двойной квадрат Уитстона
+
+		//Двойной квадрат Уитстона
+		private void radioButton3_CheckedChanged(object sender, EventArgs e)
 		{
-			groupBox2.Text = "Ключ сдвига и Ключевая фраза";
+			groupBox2.Text = "Введите два ключа";
 			RadioButton radioButton = (RadioButton)sender;
 			if (radioButton.Checked)
 			{
@@ -78,7 +89,9 @@ namespace Cryptography_1
 			}
 		}
 
-		private void radioButton4_CheckedChanged(object sender, EventArgs e)//Шифр двойной перестановки
+
+		//Шифр двойной перестановки
+		private void radioButton4_CheckedChanged(object sender, EventArgs e)
 		{
 			groupBox2.Text = "Ключ сдвига и Ключевая фраза";
 			RadioButton radioButton = (RadioButton)sender;
@@ -88,7 +101,9 @@ namespace Cryptography_1
 			}
 		}
 
-		private void FirstEncrypt()//Шифрование 1 методом - Система Цезаря с ключевым словом
+
+		//Шифрование 1 методом - Система Цезаря с ключевым словом
+		private void FirstEncrypt()
 		{
 
 			try
@@ -107,7 +122,9 @@ namespace Cryptography_1
 			}
 		}
 
-		private void FirstDecrypt()//Дешифрование 1 методом - Система Цезаря с ключевым словом
+
+		//Дешифрование 1 методом - Система Цезаря с ключевым словом
+		private void FirstDecrypt()
 		{
 			try
 			{
@@ -125,7 +142,9 @@ namespace Cryptography_1
 			}
 		}
 
-		private void SecondEncrypt()//Шифрование 2 методом - Афинная система подстановок Цезаря
+
+		//Шифрование 2 методом - Афинная система подстановок Цезаря
+		private void SecondEncrypt()
 		{
 			try
 			{
@@ -144,7 +163,9 @@ namespace Cryptography_1
 			}
 		}
 
-		private void SecondDecrypt()//Дешифрование 2 методом - Афинная система подстановок Цезаря
+
+		//Дешифрование 2 методом - Афинная система подстановок Цезаря
+		private void SecondDecrypt()
 		{
 			try
 			{
@@ -161,18 +182,35 @@ namespace Cryptography_1
 			}
 		}
 
-		private void ThirdEncrypt()//Шифрование 3 методом - Двойной квадрат Уитстона
+
+		//Шифрование 3 методом - Двойной квадрат Уитстона
+		private void ThirdEncrypt()
 		{
 			ThirdCipher thirdCipher = new ThirdCipher(textBox2.Text, textBox3.Text, textBox1.Text);
-			label1.Text = thirdCipher.Length().ToString();
+			thirdCipher.SetSecondSquare();
+			for (int i = 0; i < 12; i++)
+			{
+				for (int j = 0; j < 12; j++)
+				{
+					label1.Text += thirdCipher.SecondSquare[i, j];
+				}
+				//label1.Text += "\n";
+			}
+
+			label1.Text += thirdCipher.FirstSquare.Length.ToString();
+			//label1.Text = thirdCipher.Length().ToString();
 		}
 
-		private void ThirdDecrypt()//Дешифрование 3 методом - Двойной квадрат Уитстона
+
+		//Дешифрование 3 методом - Двойной квадрат Уитстона
+		private void ThirdDecrypt()
 		{
 
 		}
 
-		private void encrypt_Click(object sender, EventArgs e)//Зашифровать
+
+		//Зашифровать
+		private void encrypt_Click(object sender, EventArgs e)
 		{
 			switch (RadioButtonState)
 			{
@@ -182,10 +220,11 @@ namespace Cryptography_1
 				case 4: break;
 				default: MessageBox.Show("Выберите тип шифра!","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);break;
 			}
-			
 		}
 
-		private void decrypt_Click(object sender, EventArgs e)//Дешифровать
+
+		//Дешифровать
+		private void decrypt_Click(object sender, EventArgs e)
 		{
 			switch (RadioButtonState)
 			{
@@ -197,7 +236,9 @@ namespace Cryptography_1
 			}
 		}
 
-		private int NOD(int A, int B)//Наибольший Общий Делитель
+
+		//Наибольший Общий Делитель
+		private int NOD(int A, int B)
 		{
 			if (A == B)
 				return A;

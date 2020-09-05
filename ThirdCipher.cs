@@ -12,8 +12,8 @@ namespace Cryptography_1
 		private static int length = 12;//Ширина квадрата
 		private static int height = 12;//Высота квадрата
 
-		private string[,] FirstSquare = new string[length,height];//Первый квадрат Уитстона
-		private string[,] SecondSquare = new string[length, height];//Второй квадрат Уитстона 
+		public char[,] FirstSquare = new char[height, length];//Первый квадрат Уитстона
+		public char[,] SecondSquare = new char[height, length];//Второй квадрат Уитстона 
 
 		private string firstKey = "";
 		private string secondKey = "";
@@ -22,24 +22,74 @@ namespace Cryptography_1
 
 		public ThirdCipher(string firstKey,string secondKey,string text)
 		{
-			this.firstKey = firstKey;
-			this.secondKey = secondKey;
+			//Удаление повторяющихся символов из первого ключа
+			this.firstKey = new string(firstKey.Distinct().ToArray()).Replace(" ", "");
+			//Удаление повторяющихся символов из второго ключа
+			this.secondKey = new string(secondKey.Distinct().ToArray()).Replace(" ", "");
 			this.text = text;
 		}
 
-		private void SetFirstSquare()
+		private string GetKeyLess(string _Key)//Вернуть алфавит без указанного ключа
 		{
+			string ResidualAlphabet = Alphabet;
+			for (int i = 0; i < _Key.Length; i++)//Алфавит без Ключевого слова
+			{
+				ResidualAlphabet = ResidualAlphabet.Replace(_Key[i].ToString(), "");
+			}
+			return ResidualAlphabet;
+		}
 
+
+		public void SetFirstSquare()
+		{
+			string KeyLess = GetKeyLess(firstKey);
+			int index = 0, k = 0;
+			for (int i = 0; i < height; i++)
+			{
+				for (int j = 0; j < length; j++)
+				{
+					if (index < firstKey.Length)
+					{
+						FirstSquare[i, j] = firstKey[index];
+						index++;
+					}
+					else
+					{
+						FirstSquare[i, j] = KeyLess[k];
+						k++;
+					}
+				}
+			}
 		}
 		
-		private void SetSecondSquare()
-		{
 
+		public void SetSecondSquare()
+		{
+			string KeyLess = GetKeyLess(secondKey);
+			int index = 0, k = 0;
+			for (int i = 0; i < height; i++)
+			{
+				for (int j = 0; j < length; j++)
+				{
+					if (index < secondKey.Length)
+					{
+						SecondSquare[i, j] = secondKey[index];
+						index++;
+					}
+					else
+					{
+						SecondSquare[i, j] = KeyLess[k];
+						k++;
+					}
+				}
+			}
 		}
 
-		public int Length()
+
+		public char[,] Length()
 		{
-			return Alphabet.Length;
+			//return Alphabet.Length;
+			return FirstSquare;
 		}
 	}
 }
