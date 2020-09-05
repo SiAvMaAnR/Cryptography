@@ -90,6 +90,7 @@ namespace Cryptography_1
 
 		private void FirstEncrypt()//Шифрование 1 методом - Система Цезаря с ключевым словом
 		{
+
 			try
 			{
 				int.TryParse(textBox2.Text, out int KeyNumber);
@@ -113,6 +114,8 @@ namespace Cryptography_1
 				int.TryParse(textBox2.Text, out int KeyNumber);
 				if (textBox3.Text.Length >= 30)
 					throw new Exception("Длина ключевого слова выходит за пределы!");
+				if (!(KeyNumber >= 0 && KeyNumber < 999999999))
+					throw new Exception("Не корректный ключевой сдвиг!");
 				FirstCipher firstcipher = new FirstCipher(textBox3.Text, KeyNumber, textBox1.Text);
 				label1.Text = firstcipher.Decode();
 			}

@@ -8,7 +8,7 @@ namespace Cryptography_1
 {
 	class SecondCipher
 	{
-		private static string Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя0123456789";//Набор сиволов
+		private static string Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя0123456789.,?!";//Набор сиволов
 		//private static string Alphabet = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя";//Набор сиволов
 		private string NewAlphabet;
 

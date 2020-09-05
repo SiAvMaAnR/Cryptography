@@ -138,18 +138,18 @@
 			// 
 			this.textBox3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.textBox3.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.textBox3.Location = new System.Drawing.Point(238, 33);
+			this.textBox3.Location = new System.Drawing.Point(306, 33);
 			this.textBox3.Name = "textBox3";
-			this.textBox3.Size = new System.Drawing.Size(354, 30);
+			this.textBox3.Size = new System.Drawing.Size(289, 30);
 			this.textBox3.TabIndex = 3;
 			// 
 			// textBox2
 			// 
 			this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
 			this.textBox2.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.textBox2.Location = new System.Drawing.Point(10, 33);
+			this.textBox2.Location = new System.Drawing.Point(3, 33);
 			this.textBox2.Name = "textBox2";
-			this.textBox2.Size = new System.Drawing.Size(222, 30);
+			this.textBox2.Size = new System.Drawing.Size(289, 30);
 			this.textBox2.TabIndex = 2;
 			// 
 			// splitContainer2
