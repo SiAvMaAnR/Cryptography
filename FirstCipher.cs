@@ -48,10 +48,6 @@ namespace Cryptography_1
 				ResidualAlphabet = ResidualAlphabet.Replace(LineKey[i].ToString(), "");
 			}
 
-			//Имеем:
-			//ReserveAlphabet - ABCDEПриветLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя
-			//ResidualAlphabet - ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОРСТУФХЦЧШЩЪЫЬЭЮЯабгдёжзйклмнопсуфхцчшщъыьэюя
-			//Alphabet - ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя
 			for (int i = 0, k = 0; i < ReserveAlphabet.Length && k < ResidualAlphabet.Length; i++, k++)
 			{
 				if (NumberKey == ReserveAlphabet.Length)
@@ -100,11 +96,6 @@ namespace Cryptography_1
 				}
 			}
 			return decrypt;
-		}
-
-		public string printData()//Тест
-		{
-			return $"{LineKey}\n{NumberKey}\n";
 		}
 
 	}

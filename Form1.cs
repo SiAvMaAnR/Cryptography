@@ -50,6 +50,7 @@ namespace Cryptography_1
 
 		private void radioButton1_CheckedChanged(object sender, EventArgs e)//Система цезаря с ключевым словом
 		{
+			groupBox2.Text = "Введите ключ сдвига и ключевую фразу";
 			RadioButton radioButton = (RadioButton)sender;
 			if (radioButton.Checked)
 			{
@@ -59,6 +60,7 @@ namespace Cryptography_1
 
 		private void radioButton2_CheckedChanged(object sender, EventArgs e)//Аффинная система подстановки Цезаря
 		{
+			groupBox2.Text = "Введите два численных ключа";
 			RadioButton radioButton = (RadioButton)sender;
 			if (radioButton.Checked)
 			{
@@ -68,6 +70,7 @@ namespace Cryptography_1
 
 		private void radioButton3_CheckedChanged(object sender, EventArgs e)//Двойной квадрат Уитстона
 		{
+			groupBox2.Text = "Ключ сдвига и Ключевая фраза";
 			RadioButton radioButton = (RadioButton)sender;
 			if (radioButton.Checked)
 			{
@@ -77,6 +80,7 @@ namespace Cryptography_1
 
 		private void radioButton4_CheckedChanged(object sender, EventArgs e)//Шифр двойной перестановки
 		{
+			groupBox2.Text = "Ключ сдвига и Ключевая фраза";
 			RadioButton radioButton = (RadioButton)sender;
 			if (radioButton.Checked)
 			{
@@ -84,7 +88,7 @@ namespace Cryptography_1
 			}
 		}
 
-		private void FirstEncrypt()//Шифрование 1 методом
+		private void FirstEncrypt()//Шифрование 1 методом - Система Цезаря с ключевым словом
 		{
 			try
 			{
@@ -93,8 +97,8 @@ namespace Cryptography_1
 				{
 					throw new Exception("Длина ключевого слова выходит за пределы!");
 				}
-				FirstCipher firstcipher = new FirstCipher(textBox3.Text, KeyNumber, textBox1.Text);
-				label1.Text = firstcipher.Encode();
+				FirstCipher firstCipher = new FirstCipher(textBox3.Text, KeyNumber, textBox1.Text);
+				label1.Text = firstCipher.Encode();
 			}
 			catch (Exception ex)
 			{
@@ -102,7 +106,7 @@ namespace Cryptography_1
 			}
 		}
 
-		private void FirstDecrypt()//Шифрование 1 методом
+		private void FirstDecrypt()//Дешифрование 1 методом - Система Цезаря с ключевым словом
 		{
 			try
 			{
@@ -120,12 +124,39 @@ namespace Cryptography_1
 			}
 		}
 
+		private void SecondEncrypt()//Шифрование 2 методом - Афинная система подстановок Цезаря
+		{
+			try
+			{
+				int K = int.Parse(textBox2.Text);
+				int A = int.Parse(textBox3.Text);
+				SecondCipher secondCipher = new SecondCipher(K, A, Text, out int LengthAlphabet);
+				if (NOD(K,LengthAlphabet)!=1)
+				{
+					throw new Exception($"Первый ключ должен быть взаимно простым с числом {LengthAlphabet}!");
+				}
+
+
+
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+
+		}
+
+		private void SecondDecrypt()//Дешифрование 2 методом - Афинная система подстановок Цезаря
+		{
+
+		}
+
 		private void encrypt_Click(object sender, EventArgs e)//Зашифровать
 		{
 			switch (RadioButtonState)
 			{
 				case 1: FirstEncrypt(); break;
-				case 2: break;
+				case 2: SecondEncrypt(); break;
 				case 3: break;
 				case 4: break;
 				default: MessageBox.Show("Выберите тип шифра!","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);break;
@@ -138,11 +169,20 @@ namespace Cryptography_1
 			switch (RadioButtonState)
 			{
 				case 1: FirstDecrypt(); break;
-				case 2: break;
+				case 2: SecondDecrypt(); break;
 				case 3: break;
 				case 4: break;
 				default: MessageBox.Show("Выберите тип шифра!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); break;
 			}
+		}
+
+		private int NOD(int A, int B)
+		{
+			if (A == B)
+				return A;
+			if (A > B)
+				(A, B) = (B, A);
+			return NOD(A, B - A);
 		}
 
 	}

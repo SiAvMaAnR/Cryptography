@@ -132,7 +132,7 @@
 			this.groupBox2.Size = new System.Drawing.Size(598, 82);
 			this.groupBox2.TabIndex = 3;
 			this.groupBox2.TabStop = false;
-			this.groupBox2.Text = "Сдвиг и Ключевая фраза";
+			this.groupBox2.Text = "Ввод данных!";
 			// 
 			// textBox3
 			// 
