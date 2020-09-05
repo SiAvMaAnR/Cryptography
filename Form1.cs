@@ -163,7 +163,7 @@ namespace Cryptography_1
 
 		private void ThirdEncrypt()//Шифрование 3 методом - Двойной квадрат Уитстона
 		{
-			ThirdCipher thirdCipher = new ThirdCipher();
+			ThirdCipher thirdCipher = new ThirdCipher(textBox2.Text, textBox3.Text, textBox1.Text);
 			label1.Text = thirdCipher.Length().ToString();
 		}
 
