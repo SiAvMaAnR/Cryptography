@@ -93,8 +93,10 @@ namespace Cryptography_1
 			try
 			{
 				int.TryParse(textBox2.Text, out int KeyNumber);
-				if(textBox3.Text.Length>=30)
-					throw new Exception("Длина ключевого слова выходит за пределы!");
+				if(textBox3.Text.Length>=60)
+					throw new Exception("Длина ключевого слова слишком велика!");
+				if (!(KeyNumber >= 0 && KeyNumber < 999999999))
+					throw new Exception("Не корректный ключевой сдвиг!");
 				FirstCipher firstCipher = new FirstCipher(textBox3.Text, KeyNumber, textBox1.Text);
 				label1.Text = firstCipher.Encode();
 			}
@@ -189,6 +191,5 @@ namespace Cryptography_1
 				(A, B) = (B, A);
 			return NOD(A, B - A);
 		}
-
 	}
 }
