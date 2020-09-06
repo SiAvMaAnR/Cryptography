@@ -186,19 +186,15 @@ namespace Cryptography_1
 		//Шифрование 3 методом - Двойной квадрат Уитстона
 		private void ThirdEncrypt()
 		{
-			ThirdCipher thirdCipher = new ThirdCipher(textBox2.Text, textBox3.Text, textBox1.Text);
-			thirdCipher.SetSecondSquare();
-			for (int i = 0; i < 12; i++)
+			try
 			{
-				for (int j = 0; j < 12; j++)
-				{
-					label1.Text += thirdCipher.SecondSquare[i, j];
-				}
-				//label1.Text += "\n";
+				ThirdCipher thirdCipher = new ThirdCipher(textBox2.Text, textBox3.Text, textBox1.Text);
+				label1.Text = thirdCipher.Encode();
 			}
-
-			label1.Text += thirdCipher.FirstSquare.Length.ToString();
-			//label1.Text = thirdCipher.Length().ToString();
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 		}
 
 
