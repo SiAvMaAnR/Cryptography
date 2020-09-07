@@ -9,7 +9,8 @@ namespace Cryptography_1
 	class ThirdCipher
 	{
 		//private static string Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя0123456789.,?!*/+-=_()%;:#";//Набор сиволов
-		private static string Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя0123456789.,?!*/+-=_()%;:#";//Набор сиволов
+		//Перемешанный алфавит
+		private static string Alphabet = "ъ=#VКsэGу6ЮлнzSОqhWЫxCФN.HдM8ИdcFjtQ+ITхЦв;awrтDУп:Бж5ЁХЛLчvёгE2Аu70аГ/3Aошeе)бПТЩЭЕZ9mXРЯpygкыi?%юй4Вl,сДьЪзН(ф-PBШOСb_Ж!рoщUЬR*JямnKЧЗ1YМцfkЙи";//Набор сиволов
 
 		private static int columns = 12;//Столбцы
 		private static int rows = 12;//Ряды
@@ -17,11 +18,11 @@ namespace Cryptography_1
 		public char[,] FirstSquare = new char[rows, columns];//Первый квадрат Уитстона
 		public char[,] SecondSquare = new char[rows, columns];//Второй квадрат Уитстона 
 
-		private string firstKey = "";
-		private string secondKey = "";
+		private string firstKey = "";//Первый ключ
+		private string secondKey = "";//Второй ключ
 
-		public string encrypt = "";
-		private string decrypt = "";
+		public string encrypt = "";//Зашифрованные данные
+		private string decrypt = "";//Дешифрованные данные
 
 		public string text = "";
 
@@ -78,7 +79,7 @@ namespace Cryptography_1
 			SetSecondSquare();
 			text = text.Replace(" ", "_");
 			if (text.Length % 2 == 1)
-				text += "_";
+				text += "_"; 
 		}
 
 		//Зашифровка
@@ -109,16 +110,13 @@ namespace Cryptography_1
 				Pair += text[i];
 				if (i % 2 == 1)
 				{
-					//StringBuilder stringBuilder = new StringBuilder(Pair);
-					//(stringBuilder[0], stringBuilder[1]) = (stringBuilder[1], stringBuilder[0]);
-					//Pair = stringBuilder.ToString();
 					decrypt += DecodeElementPairCipher(Pair);
 					Pair = "";
 				}
 			}
-
 			return decrypt.Replace("_"," ");
 		}
+
 
 
 		//Поиск позиции элемента в таблице
@@ -133,7 +131,7 @@ namespace Cryptography_1
 			{
 				for (int j = 0; j < Columns; j++)
 				{
-					if (Square[i, j].Equals(SearchChar))
+					if (Square[i, j]==SearchChar)
 					{
 						TableRows = i;
 						TableColumns = j;
@@ -151,17 +149,13 @@ namespace Cryptography_1
 			SearchIndexToArray(FirstSquare, StrPair[0], out int Rows_0, out int Columns_0);//Позиция 1 символа в 1 квадрате
 			SearchIndexToArray(SecondSquare, StrPair[1], out int Rows_1, out int Columns_1);//Позиция 2 символа в 2 квадрате
 
-			if (Rows_0 == -1 || Rows_1 == -1 || Columns_0 == -1 || Columns_1 == -1)//Если нет таких символов
+			if (Rows_0 == Rows_1)//Если в 1 ряду 
 			{
-				Pair = StrPair;
-			}
-			else if (Rows_0 == Rows_1)//Если в 1 ряду
-			{
-				Pair += SecondSquare[Rows_0, Columns_0].ToString() + FirstSquare[Rows_1, Columns_1].ToString();
+				Pair += (Rows_0 == -1 || Rows_1 == -1) ? StrPair : SecondSquare[Rows_0, Columns_0].ToString() + FirstSquare[Rows_1, Columns_1].ToString();
 			}
 			else//Если в разных рядах 
 			{
-				Pair += SecondSquare[Rows_0, Columns_1].ToString() + FirstSquare[Rows_1, Columns_0].ToString();
+				Pair += (Rows_0 == -1 || Rows_1 == -1) ? StrPair : SecondSquare[Rows_0, Columns_1].ToString() + FirstSquare[Rows_1, Columns_0].ToString();
 			}
 			return Pair;
 		}
@@ -175,17 +169,13 @@ namespace Cryptography_1
 			SearchIndexToArray(SecondSquare, StrPair[0], out int Rows_0, out int Columns_0);//Позиция 1 символа в 1 квадрате
 			SearchIndexToArray(FirstSquare, StrPair[1], out int Rows_1, out int Columns_1);//Позиция 2 символа в 2 квадрате
 
-			if (Rows_0 == -1 || Rows_1 == -1 || Columns_0 == -1 || Columns_1 == -1)//Если нет таких символов
+			if (Rows_0 == Rows_1)//Если в 1 ряду 
 			{
-				Pair = StrPair;
-			}
-			else if (Rows_0 == Rows_1)//Если в 1 ряду
-			{
-				Pair += FirstSquare[Rows_0, Columns_0].ToString() + SecondSquare[Rows_1, Columns_1].ToString();
+				Pair += (Rows_0 == -1 || Rows_1 == -1) ? StrPair : FirstSquare[Rows_0, Columns_0].ToString() + SecondSquare[Rows_1, Columns_1].ToString();
 			}
 			else//Если в разных рядах 
 			{
-				Pair += FirstSquare[Rows_0, Columns_1].ToString() + SecondSquare[Rows_1, Columns_0].ToString();
+				Pair += (Rows_0 == -1 || Rows_1 == -1) ? StrPair : FirstSquare[Rows_0, Columns_1].ToString() + SecondSquare[Rows_1, Columns_0].ToString();
 			}
 			return Pair;
 		}
