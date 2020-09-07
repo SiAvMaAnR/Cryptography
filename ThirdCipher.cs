@@ -15,16 +15,16 @@ namespace Cryptography_1
 		private static int columns = 12;//Столбцы
 		private static int rows = 12;//Ряды
 
-		public char[,] FirstSquare = new char[rows, columns];//Первый квадрат Уитстона
-		public char[,] SecondSquare = new char[rows, columns];//Второй квадрат Уитстона 
+		private char[,] FirstSquare = new char[rows, columns];//Первый квадрат Уитстона
+		private char[,] SecondSquare = new char[rows, columns];//Второй квадрат Уитстона 
 
 		private string firstKey = "";//Первый ключ
 		private string secondKey = "";//Второй ключ
 
-		public string encrypt = "";//Зашифрованные данные
+		private string encrypt = "";//Зашифрованные данные
 		private string decrypt = "";//Дешифрованные данные
 
-		public string text = "";
+		private string text = "";
 
 		public ThirdCipher(string firstKey,string secondKey,string text)
 		{
@@ -46,7 +46,7 @@ namespace Cryptography_1
 		}
 
 		//Первый квадрат
-		public void SetFirstSquare()
+		private void SetFirstSquare()
 		{
 			string KeyLess = GetKeyLess(firstKey);
 			int index = 0, k = 0;
@@ -59,7 +59,7 @@ namespace Cryptography_1
 			}
 		}
 		//Второй квадрат
-		public void SetSecondSquare()
+		private void SetSecondSquare()
 		{
 			string KeyLess = GetKeyLess(secondKey);
 			int index = 0, k = 0;
@@ -73,7 +73,7 @@ namespace Cryptography_1
 		}
 
 		//Создание двух квадратов и замена пробелов на подчеркивания
-		public void CipherDerivation()
+		private void CipherDerivation()
 		{
 			SetFirstSquare();
 			SetSecondSquare();
