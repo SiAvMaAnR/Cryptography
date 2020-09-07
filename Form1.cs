@@ -93,7 +93,7 @@ namespace Cryptography_1
 		//Шифр двойной перестановки
 		private void radioButton4_CheckedChanged(object sender, EventArgs e)
 		{
-			groupBox2.Text = "Ключ сдвига и Ключевая фраза";
+			groupBox2.Text = "Введите два ключа";
 			RadioButton radioButton = (RadioButton)sender;
 			if (radioButton.Checked)
 			{
@@ -220,7 +220,12 @@ namespace Cryptography_1
 		{
 			try
 			{
-				FourthCipher fourthCipher = new FourthCipher(textBox1.Text, textBox2.Text, textBox3.Text);
+				if(string.IsNullOrEmpty(textBox2.Text))
+					throw new Exception("Поле первого ключа обязательно к заполнению");
+				FourthCipher fourthCipher = new FourthCipher(textBox1.Text, textBox2.Text, textBox3.Text, out int Height);
+				if (textBox3.Text.Length != Height)
+					throw new Exception($"Длина второго ключа должна равняться {Height}");
+				fourthCipher.FillTable();
 			}
 			catch (Exception ex)
 			{
