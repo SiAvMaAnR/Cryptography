@@ -8,13 +8,14 @@ namespace Cryptography_1
 {
 	class ThirdCipher
 	{
+		//private static string Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя0123456789.,?!*/+-=_()%;:#";//Набор сиволов
 		private static string Alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯабвгдеёжзийклмнопрстуфхцчшщъыьэюя0123456789.,?!*/+-=_()%;:#";//Набор сиволов
 
 		private static int columns = 12;//Столбцы
 		private static int rows = 12;//Ряды
 
-		public char[,] FirstSquare = new char[columns, rows];//Первый квадрат Уитстона
-		public char[,] SecondSquare = new char[columns, rows];//Второй квадрат Уитстона 
+		public char[,] FirstSquare = new char[rows, columns];//Первый квадрат Уитстона
+		public char[,] SecondSquare = new char[rows, columns];//Второй квадрат Уитстона 
 
 		private string firstKey = "";
 		private string secondKey = "";
@@ -52,16 +53,7 @@ namespace Cryptography_1
 			{
 				for (int j = 0; j < columns; j++)
 				{
-					if (index < firstKey.Length)
-					{
-						FirstSquare[i, j] = firstKey[index];
-						index++;
-					}
-					else
-					{
-						FirstSquare[i, j] = KeyLess[k];
-						k++;
-					}
+					FirstSquare[i, j] = (index < firstKey.Length) ?firstKey[index++]:KeyLess[k++];
 				}
 			}
 		}
@@ -70,20 +62,11 @@ namespace Cryptography_1
 		{
 			string KeyLess = GetKeyLess(secondKey);
 			int index = 0, k = 0;
-			for (int i = 0; i < columns; i++)
+			for (int i = 0; i < rows; i++)
 			{
-				for (int j = 0; j < rows; j++)
+				for (int j = 0; j < columns; j++)
 				{
-					if (index < secondKey.Length)
-					{
-						SecondSquare[i, j] = secondKey[index];
-						index++;
-					}
-					else
-					{
-						SecondSquare[i, j] = KeyLess[k];
-						k++;
-					}
+					SecondSquare[i, j] = (index < secondKey.Length) ? secondKey[index++] : KeyLess[k++];
 				}
 			}
 		}
@@ -93,8 +76,8 @@ namespace Cryptography_1
 		{
 			SetFirstSquare();
 			SetSecondSquare();
-			text = text.Replace(" ","_");
-			if(text.Length%2==1)
+			text = text.Replace(" ", "_");
+			if (text.Length % 2 == 1)
 				text += "_";
 		}
 
@@ -108,28 +91,33 @@ namespace Cryptography_1
 				Pair += text[i];
 				if (i % 2 == 1)
 				{
-					encrypt += ElementPairCipher(Pair) + " ";
+					encrypt += EncodeElementPairCipher(Pair);
 					Pair = "";
 				}
 			}
 			return encrypt;
 		}
 
-		//Дешифровка путем замены засположения квадратов - пробуем
+		//Дешифровка путем замены расположения, меняем элементы пары местами
 		public string Decode()
 		{
-			CipherDerivation();
+			SetFirstSquare();
+			SetSecondSquare(); 
 			string Pair = "";
 			for (int i = 0; i < text.Length; i++)
 			{
 				Pair += text[i];
-				if (i % 2 == 0)
+				if (i % 2 == 1)
 				{
-					decrypt += ElementPairCipher(Pair) + " ";
+					//StringBuilder stringBuilder = new StringBuilder(Pair);
+					//(stringBuilder[0], stringBuilder[1]) = (stringBuilder[1], stringBuilder[0]);
+					//Pair = stringBuilder.ToString();
+					decrypt += DecodeElementPairCipher(Pair);
 					Pair = "";
 				}
 			}
-			return decrypt;
+
+			return decrypt.Replace("_"," ");
 		}
 
 
@@ -138,8 +126,8 @@ namespace Cryptography_1
 		{
 			TableRows = -1;
 			TableColumns = -1;
-			int Rows = Square.GetUpperBound(0);//Ряды
-			int Columns = Square.GetUpperBound(1);//Колонки
+			int Rows = Square.GetUpperBound(0)+1;//Ряды
+			int Columns = Square.GetUpperBound(1)+1;//Колонки
 
 			for (int i = 0; i < Rows; i++)
 			{
@@ -156,15 +144,50 @@ namespace Cryptography_1
 
 
 		//Замена пары символов на зашифрованную пару
-		private string ElementPairCipher(string StrPair)
+		private string EncodeElementPairCipher(string StrPair)
 		{
 			string Pair = "";
+
 			SearchIndexToArray(FirstSquare, StrPair[0], out int Rows_0, out int Columns_0);//Позиция 1 символа в 1 квадрате
 			SearchIndexToArray(SecondSquare, StrPair[1], out int Rows_1, out int Columns_1);//Позиция 2 символа в 2 квадрате
 
-
+			if (Rows_0 == -1 || Rows_1 == -1 || Columns_0 == -1 || Columns_1 == -1)//Если нет таких символов
+			{
+				Pair = StrPair;
+			}
+			else if (Rows_0 == Rows_1)//Если в 1 ряду
+			{
+				Pair += SecondSquare[Rows_0, Columns_0].ToString() + FirstSquare[Rows_1, Columns_1].ToString();
+			}
+			else//Если в разных рядах 
+			{
+				Pair += SecondSquare[Rows_0, Columns_1].ToString() + FirstSquare[Rows_1, Columns_0].ToString();
+			}
 			return Pair;
 		}
 
+
+		//Замена пары символов на дешифрованную пару
+		private string DecodeElementPairCipher(string StrPair)
+		{
+			string Pair = "";
+
+			SearchIndexToArray(SecondSquare, StrPair[0], out int Rows_0, out int Columns_0);//Позиция 1 символа в 1 квадрате
+			SearchIndexToArray(FirstSquare, StrPair[1], out int Rows_1, out int Columns_1);//Позиция 2 символа в 2 квадрате
+
+			if (Rows_0 == -1 || Rows_1 == -1 || Columns_0 == -1 || Columns_1 == -1)//Если нет таких символов
+			{
+				Pair = StrPair;
+			}
+			else if (Rows_0 == Rows_1)//Если в 1 ряду
+			{
+				Pair += FirstSquare[Rows_0, Columns_0].ToString() + SecondSquare[Rows_1, Columns_1].ToString();
+			}
+			else//Если в разных рядах 
+			{
+				Pair += FirstSquare[Rows_0, Columns_1].ToString() + SecondSquare[Rows_1, Columns_0].ToString();
+			}
+			return Pair;
+		}
 	}
 }

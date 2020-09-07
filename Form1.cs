@@ -188,6 +188,8 @@ namespace Cryptography_1
 		{
 			try
 			{
+				if (textBox1.Text.Contains('_'))
+					throw new Exception("Для повышения безопасности запрещена возможность ввода \"_\"");
 				ThirdCipher thirdCipher = new ThirdCipher(textBox2.Text, textBox3.Text, textBox1.Text);
 				label1.Text = thirdCipher.Encode();
 			}
@@ -201,7 +203,15 @@ namespace Cryptography_1
 		//Дешифрование 3 методом - Двойной квадрат Уитстона
 		private void ThirdDecrypt()
 		{
-
+			try
+			{ 
+				ThirdCipher thirdCipher = new ThirdCipher(textBox2.Text, textBox3.Text, textBox1.Text);
+				label1.Text = thirdCipher.Decode();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 		}
 
 
