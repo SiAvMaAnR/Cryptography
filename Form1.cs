@@ -215,6 +215,27 @@ namespace Cryptography_1
 		}
 
 
+		//Шифрование 4 методом - Метод двойной перестановки
+		private void FourthEncrypt()
+		{
+			try
+			{
+				FourthCipher fourthCipher = new FourthCipher(textBox1.Text, textBox2.Text, textBox3.Text);
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+		}
+
+
+		//Дешифрование 4 методом - Метод двойной перестановки
+		private void FourthDecrypt()
+		{
+
+		}
+
+
 		//Зашифровать
 		private void encrypt_Click(object sender, EventArgs e)
 		{
@@ -223,7 +244,7 @@ namespace Cryptography_1
 				case 1: FirstEncrypt(); break;
 				case 2: SecondEncrypt(); break;
 				case 3: ThirdEncrypt(); break;
-				case 4: break;
+				case 4: FourthEncrypt(); break;
 				default: MessageBox.Show("Выберите тип шифра!","Error",MessageBoxButtons.OK,MessageBoxIcon.Error);break;
 			}
 		}
@@ -237,7 +258,7 @@ namespace Cryptography_1
 				case 1: FirstDecrypt(); break;
 				case 2: SecondDecrypt(); break;
 				case 3: ThirdDecrypt(); break;
-				case 4: break;
+				case 4: FourthDecrypt(); break;
 				default: MessageBox.Show("Выберите тип шифра!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); break;
 			}
 		}
