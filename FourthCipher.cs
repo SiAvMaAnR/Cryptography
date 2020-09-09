@@ -12,6 +12,7 @@ namespace Cryptography_1
 		public string text = "";
 		private string firstKey = "";
 		private string secondKey = "";
+		string NewAlphabet = Alphabet;
 
 		private string encrypt;//Зашифрованные данные
 		private string decrypt;//Дешифрованные данные
@@ -21,7 +22,7 @@ namespace Cryptography_1
 
 		private char [,] Table;//Таблица
 
-		public FourthCipher(string text, string firstKey, string secondKey, out int Height)
+		public FourthCipher(string text, string firstKey, string secondKey, out int Height, out string Alphabet)
 		{
 			this.text = text;//Исходный текст
 			this.firstKey = firstKey;//Первый ключ
@@ -30,6 +31,7 @@ namespace Cryptography_1
 			this.height = (int)Math.Ceiling(Convert.ToDouble(text.Length) / Convert.ToDouble(width));//Высота таблицы
 			this.Table = new char[height,width];//Таблица
 			Height = height;//Возвращаем высоту таблицы
+			Alphabet = NewAlphabet;//Возвращаем алфавит
 		}
 
 		//Заполнение Таблицы
@@ -39,19 +41,59 @@ namespace Cryptography_1
 			{
 				for (int j = 0; j < width; j++)
 				{
-					Table[i, j] = (text.Length == n) ?' ': text[n++];
+					Table[i, j] = (text.Length == n) ? ' ' : text[n++];
 				}
 			}
 		}
 
-		//Корректировка горизонтальных индексов
-		private void CorrectWidth()
-		{
 
+		//Проверка ключа на число и запись в численный массив
+		public int[] ConvertToNumber(string key)
+		{
+			int[] NumberKey = new int[key.Length];
+			bool IsNumber = int.TryParse(key.Trim(), out int number);
+			if (IsNumber)
+			{
+				string str = number.ToString();
+				for (int i = 0; i < key.Length; i++)
+				{
+					NumberKey[i] = Convert.ToInt32(str[i]);
+				}
+			}
+			else
+			{
+				for (int i = 0; i < key.Length; i++)//Перебираем все символы ключа
+				{
+					NumberKey[i] = Alphabet.IndexOf(key[i]);
+				}
+			}
+			//Например 64287
+			// -->  32154
+
+			int[] NewNumberKey = NumberKey;
+			//Array.Sort(NumberKey);
+			
+			//for (int i = 0; i < NumberKey.Length; i++)
+			//{
+			//	NumberKey[i] = Array.IndexOf(NewNumberKey, NumberKey[i])+1;
+			//}
+			return NewNumberKey;
+		}
+
+
+
+
+
+
+
+		//Корректировка горизонтальных индексов
+		private void CorrectFirstKey()
+		{
+			
 		}
 
 		//Корректировка вертикальных индексов
-		private void CorrectHeight()
+		private void CorrectSecondKey()
 		{
 
 		}

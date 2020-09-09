@@ -54,7 +54,7 @@ namespace Cryptography_1
 			{
 				for (int j = 0; j < columns; j++)
 				{
-					FirstSquare[i, j] = (index < firstKey.Length) ?firstKey[index++]:KeyLess[k++];
+					FirstSquare[i, j] = (index < firstKey.Length) ? firstKey[index++] : KeyLess[k++];
 				}
 			}
 		}
@@ -114,7 +114,7 @@ namespace Cryptography_1
 					Pair = "";
 				}
 			}
-			return decrypt.Replace("_"," ");
+			return decrypt.Replace("_"," ").Trim();
 		}
 
 
