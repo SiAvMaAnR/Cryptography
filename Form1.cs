@@ -233,11 +233,7 @@ namespace Cryptography_1
 					throw new Exception($"Ключи должны состоять из уникальных символов!");
 
 				
-				int [] number = fourthCipher.ConvertToNumber("АВГБД");
-				for (int i = 0; i < number.Length; i++)
-				{
-					label1.Text += number[i].ToString();
-				}
+				label1.Text = fourthCipher.Encode();
 			}
 			catch (Exception ex)
 			{
@@ -249,7 +245,27 @@ namespace Cryptography_1
 		//Дешифрование 4 методом - Метод двойной перестановки
 		private void FourthDecrypt()
 		{
+			try
+			{
+				if(string.IsNullOrEmpty(textBox2.Text))
+					throw new Exception("Поле первого ключа обязательно к заполнению");
+				FourthCipher fourthCipher = new FourthCipher(textBox1.Text, textBox2.Text, textBox3.Text, out int Height, out string Alphabet);
+				if (textBox3.Text.Length != Height)
+					throw new Exception($"Длина второго ключа должна равняться {Height}");
+				if (IsCorrectText(textBox2.Text, Alphabet)|| IsCorrectText(textBox3.Text, Alphabet))
+					throw new Exception($"Ключи должны быть в виде числа или слова (без комбинаций!)");
+				if (textBox3.Text.Length > 10)
+					throw new Exception($"Предельная длина 2 ключа, первый ключ должен быть длиннее");
+				if (IsUniqueString(textBox2.Text) || IsUniqueString(textBox3.Text))
+					throw new Exception($"Ключи должны состоять из уникальных символов!");
 
+				
+				label1.Text = fourthCipher.Decode();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 		}
 
 
